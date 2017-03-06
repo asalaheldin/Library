@@ -13,9 +13,11 @@ namespace Library.Model.Repositories
 {
     public class BookRepository : Repository<Book>, IBookRepository
     {
+        string _connectionString;
         public BookRepository(string connectionString)
             : base(connectionString)
         {
+            _connectionString = connectionString;
         }
         public IEnumerable<Book> GetAllBooks()
         {
@@ -85,6 +87,29 @@ namespace Library.Model.Repositories
                 return result;
             }
         }
+        public int BorrowBook(Borrow model)
+        {
+            int result = -1;
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                using (var command = new SqlCommand(@"BorrowBook", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@BookId", SqlDbType.Int).Value = model.BookId;
+                    command.Parameters.Add("@UserId", SqlDbType.Int).Value = model.UserId;
+                    command.Parameters.Add("@BorrowDate", SqlDbType.DateTime).Value = model.BorrowDate;
+                    command.Parameters.Add("@NumberofDays", SqlDbType.Int).Value = model.NumberofDays;
+                    command.Parameters.Add("@result", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    result = Convert.ToInt32(command.Parameters["@result"].Value);
+
+                    connection.Close();
+                }
+            }
+            return result;
+        }
 
         public override Book PopulateRecord(SqlDataReader reader)
         {
@@ -107,6 +132,7 @@ namespace Library.Model.Repositories
                 DisplayOrder = reader.GetInt32(3),
                 CreateDate = reader.GetDateTime(4),
                 UpdateDate = reader.GetDateTime(5),
+                IsAvailable = reader.GetBoolean(13),
                 Authors = authors
             };
         }

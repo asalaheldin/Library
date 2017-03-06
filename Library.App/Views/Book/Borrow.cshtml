@@ -1,0 +1,48 @@
+﻿@model Library.App.Models.BorrowModel
+
+@{
+    ViewBag.Title = "Borrow";
+}
+
+<h2>You are trying to borrow a book</h2>
+
+<h3>The following is the borrow operation details!</h3>
+
+@using (Html.BeginForm("borrow", "book", FormMethod.Post, new { id = "borrowForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>The following is the borrow operation details!</h4>
+        <hr />
+        @Html.HiddenFor(x => x.BookId)
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.Label("Book Name", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.BookName
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Borrow Date", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @DateTime.Now.Date.ToString("dd/MM/yyyy")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.NumberofDays, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.NumberofDays, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="Submitbtn" type="submit" value="Borrow" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div class="form-group">
+    @Html.ActionLink("Cancel", "index", "book")
+</div>

@@ -22,5 +22,6 @@ namespace Library.Data.Models
             }
             
         }
+        public bool IsAvailable { get; set; }
     }
 }

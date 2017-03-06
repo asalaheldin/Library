@@ -12,5 +12,6 @@ namespace Library.Model.Interfaces
         IEnumerable<Book> GetAllBooks();
         IEnumerable<Book> GetAvailableBooks();
         IEnumerable<Book> GetUserBooks(int id);
+        int BorrowBook(Borrow model);
     }
 }

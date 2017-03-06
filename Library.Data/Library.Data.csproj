@@ -45,6 +45,7 @@
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Base.cs" />
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\Borrow.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\BookHistory.cs" />
     <Compile Include="Models\UserBook.cs" />

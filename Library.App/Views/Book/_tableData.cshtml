@@ -11,6 +11,11 @@
         </td>
         <td>
             @Html.ActionLink("Show History", "detail", new { id = item.Id })
+            @if (item.IsAvailable)
+            {
+              <text> | </text> <a href="javascript:void(0)" id="borrow" data-id="@item.Id" data-bookName="@item.Name">Borrow</a>
+            }
+
         </td>
     </tr>
 }

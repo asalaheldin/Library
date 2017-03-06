@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Library.App.Models
@@ -21,6 +22,15 @@ namespace Library.App.Models
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
+    }
+    public class BorrowModel
+    {
+        public int BookId { get; set; }
+        public string BookName { get; set; }
+        [Required]
+        [Display(Name = "Number of Days to borrow the book")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Numeric value is required")]
+        public int NumberofDays { get; set; }
     }
 
     public class VerifyCodeViewModel

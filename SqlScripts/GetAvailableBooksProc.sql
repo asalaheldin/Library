@@ -1,7 +1,7 @@
 CREATE PROCEDURE GetAvailableBooks
 AS
 select b.Id, b.Name, b.IsActive, b.DisplayOrder, b.CreateDate, b.UpdateDate,
-                        a.Id, a.FirstName, a.LastName, a.IsActive, a.DisplayOrder, a.CreateDate, a.UpdateDate
+                        a.Id, a.FirstName, a.LastName, a.IsActive, a.DisplayOrder, a.CreateDate, a.UpdateDate, CAST(1 As BIT) IsAvailable
                         from Book b inner join BookAuthor ba 
                         on (b.Id = ba.BookId)
                         inner join Author a 

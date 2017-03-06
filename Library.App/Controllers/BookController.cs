@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Library.App.Helper;
+using Library.App.Models;
 using Library.Data.Models;
 using Library.Model.Interfaces;
 using System;
@@ -32,6 +33,37 @@ namespace Library.App.Controllers
         {
             var bookHistory = UnitofWork.HistoryRepository.GetBookHistory(id); 
             return View(bookHistory);
+        }
+        public async Task<ActionResult> Borrow(int id, string name)
+        {
+            var vm = new BorrowModel
+            {
+                BookId = id,
+                BookName = name,
+            };
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Borrow(BorrowModel model)
+        {
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var currentUserId = identity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Single().Value;
+            int userId = -1;
+            int.TryParse(currentUserId, out userId);
+            var vm = new Borrow
+            {
+                BookId = model.BookId,
+                UserId = userId,
+                BorrowDate = DateTime.Now.Date,
+                NumberofDays = model.NumberofDays
+            };
+            var result = UnitofWork.BookRepository.BorrowBook(vm);
+            if (result > 0)
+                return RedirectToAction("index", "book");
+            else
+                ModelState.AddModelError("", "This book can't be borrowed now!");
+
+            return View(model);
         }
 
         public async Task<JsonResult> FilterBooks(int Id)

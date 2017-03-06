@@ -1,4 +1,10 @@
 ﻿$(document).ready(function () {
+    $('#borrow').on("click", function () {
+        $this = $(this);
+        var id = $this.attr('data-id');
+        var name = $this.attr('data-bookName');
+        window.location.href = '/book/borrow?id=' + id + '&name=' + name;
+    });
     $('#sendEmails').on("click", function () {
         $.ajax({
             url: '/book/reminder',
