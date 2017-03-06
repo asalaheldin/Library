@@ -12,7 +12,7 @@ namespace Library.Model.Interfaces
         T PopulateRecord(SqlDataReader reader);
         IEnumerable<T> GetRecords(SqlCommand command);
         T GetRecord(SqlCommand command);
-        IEnumerable<T> ExecuteGetStoredProc(SqlCommand command);
-        void ExecutePostStoredProc(SqlCommand command);
+        IEnumerable<T> ExecuteStoredProc(SqlCommand command);
+        
     }
 }

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Library.Data.Models.BookHistory>
+
+@{
+    ViewBag.Title = "Book History";
+}
+
+<h2>@(Model.FirstOrDefault()?.BookName) History</h2>
+
+<h3>The following is the book history!</h3>
+<table>
+    <thead>
+        <tr>
+            <th style="padding:0 15px 0 15px;">
+                User name
+            </th>
+            <th style="padding:0 15px 0 15px;">
+                Borrow date
+            </th>
+            <th style="padding:0 15px 0 15px;">
+                End borrow date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="padding:0 15px 0 15px;">@item.FullName</td>
+                <td style="padding:0 15px 0 15px;">@item.BorrowDate.Date.ToString("dd/MM/yyyy")</td>
+                <td style="padding:0 15px 0 15px;">@item.EndBorrowDate.Date.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

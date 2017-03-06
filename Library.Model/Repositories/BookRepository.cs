@@ -2,6 +2,7 @@
 using Library.Model.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Objects;
 using System.Data.SqlClient;
 using System.Linq;
@@ -19,15 +20,9 @@ namespace Library.Model.Repositories
         public IEnumerable<Book> GetAllBooks()
         {
             List<Book> result = new List<Book>();
-            using (var command = new SqlCommand(
-                @"select b.Id, b.Name, b.IsActive, b.DisplayOrder, b.CreateDate, b.UpdateDate,
-                        a.Id, a.FirstName, a.LastName, a.IsActive, a.DisplayOrder, a.CreateDate, a.UpdateDate
-                        from Book b inner join BookAuthor ba 
-                        on (b.Id = ba.BookId)
-                        inner join Author a 
-                        on(ba.AuthorId = a.Id)"))
+            using (var command = new SqlCommand(@"GetAllBooks"))
             {
-                var books = GetRecords(command);
+                var books = ExecuteStoredProc(command);
 
                 foreach (var book in books)
                 {
@@ -47,16 +42,9 @@ namespace Library.Model.Repositories
         public IEnumerable<Book> GetAvailableBooks()
         {
             List<Book> result = new List<Book>();
-            using (var command = new SqlCommand(
-                @"select b.Id, b.Name, b.IsActive, b.DisplayOrder, b.CreateDate, b.UpdateDate,
-                        a.Id, a.FirstName, a.LastName, a.IsActive, a.DisplayOrder, a.CreateDate, a.UpdateDate
-                        from Book b inner join BookAuthor ba 
-                        on (b.Id = ba.BookId)
-                        inner join Author a 
-                        on(ba.AuthorId = a.Id)
-                        where b.Id not in (select BookId from UserBook where CAST(DATEADD(day,BorrowDays,BorrowDate) as DATE) > CAST(GETDATE() as DATE))"))
+            using (var command = new SqlCommand(@"GetAvailableBooks"))
             {
-                var books = GetRecords(command);
+                var books = ExecuteStoredProc(command);
 
                 foreach (var book in books)
                 {
@@ -77,17 +65,10 @@ namespace Library.Model.Repositories
         {
             // PARAMETERIZED QUERIES!
             List<Book> result = new List<Book>();
-            using (var command = new SqlCommand(
-                @"select b.Id, b.Name, b.IsActive, b.DisplayOrder, b.CreateDate, b.UpdateDate,
-                        a.Id, a.FirstName, a.LastName, a.IsActive, a.DisplayOrder, a.CreateDate, a.UpdateDate
-                        from Book b inner join BookAuthor ba 
-                        on (b.Id = ba.BookId)
-                        inner join Author a 
-                        on(ba.AuthorId = a.Id)
-                        where b.Id in (select BookId from UserBook where UserId = @id and CAST(DATEADD(day,BorrowDays,BorrowDate) as DATE) > CAST(GETDATE() as DATE))"))
+            using (var command = new SqlCommand(@"GetUserBooks"))
             {
-                command.Parameters.Add(new ObjectParameter("id", id));
-                var books = GetRecords(command);
+                command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                var books = ExecuteStoredProc(command);
 
                 foreach (var book in books)
                 {

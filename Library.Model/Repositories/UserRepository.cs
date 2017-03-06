@@ -22,9 +22,9 @@ namespace Library.Model.Repositories
 
         public User Login(string email)
         {
-            using (var command = new SqlCommand(@"Exec LoginUser @Email"))
+            using (var command = new SqlCommand(@"LoginUser"))
             {
-                command.Parameters.Add(new ObjectParameter("Email", email));
+                command.Parameters.Add("@Email", SqlDbType.NVarChar, 50).Value = email;
                 return ExecuteStoredProc(command).FirstOrDefault();
             }
         }
@@ -45,7 +45,7 @@ namespace Library.Model.Repositories
                     connection.Open();
                     command.ExecuteNonQuery();
 
-                    userId = Convert.ToInt32(command.Parameters["@NewId"].Value);
+                    userId = Convert.ToInt32(command.Parameters["@id"].Value);
                     connection.Close();
                 }
             }

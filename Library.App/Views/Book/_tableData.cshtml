@@ -1,0 +1,17 @@
+﻿@using Library.Data.Models
+@model IEnumerable<Book>
+@foreach (var item in Model)
+{
+    <tr id="@item.Id">
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorNamesCommaSeparated)
+        </td>
+        <td>
+            @Html.ActionLink("Show History", "detail", new { id = item.Id })
+        </td>
+    </tr>
+}
+

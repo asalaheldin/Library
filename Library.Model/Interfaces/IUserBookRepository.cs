@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Library.Model.Interfaces
 {
-    public interface IViewRepository
+    public interface IUserBookRepository
     {
-        IEnumerable<BookHistory> GetBookHistory(int id);
+        IEnumerable<UserBook> GetUsersBooks();
     }
 }

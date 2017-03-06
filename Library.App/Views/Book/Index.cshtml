@@ -1,0 +1,36 @@
+﻿@using Library.App.Helper
+@{
+    ViewBag.Title = "Books";
+}
+<h2>Books</h2>
+
+<p>
+    
+</p>
+<div class="form-group">
+    @Html.Label("Filter", new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("filter", new SelectList(Help.FilterList(), "Value", "Text", 0), new { @class = "DropDownfilterItems", @url = "/book/filterbooks" })
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Book Name
+            </th>
+            <th>
+                Authors
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+@section scripts{ 
+@*<script src="~/Scripts/custom.js"></script>*@
+}
+
