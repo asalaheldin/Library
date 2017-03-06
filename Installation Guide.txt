@@ -1,0 +1,2 @@
+1- Restore the two databases bakeup from th data folder
+2- Using visual studio start the application "Libarary.App" is the startup project

@@ -6,8 +6,6 @@
 
 <h2>You are trying to borrow a book</h2>
 
-<h3>The following is the borrow operation details!</h3>
-
 @using (Html.BeginForm("borrow", "book", FormMethod.Post, new { id = "borrowForm" }))
 {
     @Html.AntiForgeryToken()
